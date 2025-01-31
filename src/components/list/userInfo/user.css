@@ -15,4 +15,8 @@
         object-fit: cover;
         border-radius: 50%;
     }
+    .name{
+        font-size: 20px;
+        font-weight: 1000;
+    }
 }

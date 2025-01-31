@@ -9,11 +9,49 @@ const ChatList = () => {
             </div>
         </div>
         <div className='item'>
-            <div className='name'></div>
-            <div className='lastmsg'></div>
+            <img src="./profile.png" alt="" />
+            <div className='texts'> 
+              <div className='name'>name</div>
+              <div className='lastmsg'>msg</div>
+            </div>
+        </div>
+        <div className='item'>
+          <img src="./profile.png" alt="" />
+          <div className='texts'>
+            <div className='name'>name</div>
+            <div className='lastmsg'>msg</div>
+          </div>
+        </div>
+        <div className='item'>
+          <img src="./profile.png" alt="" />
+          <div className='texts'>
+            <div className='name'>name</div>
+            <div className='lastmsg'>msg</div>
+          </div>
+        </div>
+        <div className='item'>
+          <img src="./profile.png" alt="" />
+          <div className='texts'>
+            <div className='name'>name</div>
+            <div className='lastmsg'>msg</div>
+          </div>
+        </div>
+        <div className='item'>
+          <img src="./profile.png" alt="" />
+          <div className='texts'>
+            <div className='name'>name</div>
+            <div className='lastmsg'>msg</div>
+          </div>
+        </div>
+        <div className='item'>
+          <img src="./profile.png" alt="" />
+          <div className='texts'>
+            <div className='name'>name</div>
+            <div className='lastmsg'>msg</div>
+          </div>
         </div>
     </div>
   )
 }
 
-export default ChatList
+export default ChatList;

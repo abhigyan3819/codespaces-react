@@ -1,24 +1,62 @@
 .chatList{
+    flex:1;
+    overflow: scroll;
     .search{
         flex:1;
-        background-color: #1c1c1c;
+        background-color: #212B35;
         display:flex;
         gap:20px;
-        border-radius: 10px;
+        margin:10px;
+        margin-bottom: 25px;
+        border-radius: 20px;
+        border-bottom: 1px solid grey;
         
         .searchBar{
-            padding:10px;
-            flex: 1;
-            align-self: center;
+            padding:13px;
+            flex:1;
+            align-items: center;
+            display: flex;
             border-radius: 10px;
         }
 
         input{
             background-color: transparent;
             border:none;
+            font-size:16px;
             outline: none;
             color:white;
             flex:1;
         }
+    
+    }
+}
+.item{
+    display:flex;
+    align-items:center; 
+    cursor:pointer;
+    padding: 10px;
+    background-color: #2f3640;
+    margin: 20px;
+    border-radius:20px;
+}
+.item:active{
+    background-color: #177ddc;
+}
+img{
+    height:50px;
+    margin-right:10px;
+    object-fit:cover;
+    width: 50px;
+    border-radius: 50%;
+}
+.texts{
+    display:flex;
+    flex-direction:column;
+
+    .name{
+        font-weight: 500;
+    }
+    .lastmsg{
+        font-size: 14px;
     }
 }

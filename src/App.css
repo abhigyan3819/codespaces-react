@@ -1,8 +1,13 @@
 body{
-    background-color: #111211;
+    background-color:#0d1017 ;
     color:white;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .container{
     display:flex;
+    width:100vw;
+    height:100vh;
 }
