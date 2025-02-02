@@ -22,8 +22,32 @@
     padding: 30px;
     background: #1e1e1e; /* Slightly lighter dark background */
     border-radius: 10px;
-    box-shadow: 0px 0px 15px rgba(1, 1, 1, 0.3); /* Blue glow effect */
+    box-shadow: 0px 0px 15px rgba(0, 0, 255, 0.3); /* Blue glow effect */
     text-align: center;
+    position: relative;
+}
+
+/* Switcher Buttons */
+.switcher {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    display: flex;
+    gap: 10px;
+}
+
+.switcher button {
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+    padding-bottom: 5px;
+}
+
+.switcher button.active {
+    border-bottom: 2px solid #007bff; /* Active button underline */
 }
 
 /* Title */
@@ -32,6 +56,7 @@
     font-weight: bold;
     color: #ffffff;
     margin-bottom: 20px;
+    margin-top: 40px; /* Space below switcher */
 }
 
 /* Form styling */
@@ -57,7 +82,7 @@ input::placeholder {
 }
 
 /* Button styling */
-button {
+button[type="submit"] {
     width: 100%;
     padding: 12px;
     margin-top: 10px;
@@ -67,47 +92,10 @@ button {
     font-weight: bold;
     cursor: pointer;
     transition: 0.3s;
-}
-
-button[type="submit"] {
-    background: #007bff; /* Blue */
+    background: #007bff;
     color: #ffffff;
 }
 
 button[type="submit"]:hover {
-    background: #0056b3; /* Darker blue */
-}
-
-/* Switch Button */
-.create-btn {
-    background: none;
-    color: #007bff;
-    border: none;
-    font-size: 14px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.create-btn:hover {
-    color: #0056b3;
-}
-
-/* Span */
-span {
-    display: block;
-    color: #ffffff;
-    margin-top: 15px;
-    font-size: 14px;
-}
-.switcher{
-    display: flex;
-    margin: 10px;
-    align-items: start;
-    justify-content: space-between;
-    button{
-        background-color: transparent;
-        color:white;
-        border:none;
-        outline: none;
-    }
+    background: #0056b3;
 }
