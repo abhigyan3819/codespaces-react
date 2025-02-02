@@ -1,6 +1,7 @@
 .chatList{
     flex:1;
-    overflow: scroll;
+    overflow-y: scroll;
+    z-index:1;
     .search{
         flex:1;
         background-color: #212B35;
@@ -35,7 +36,7 @@
     align-items:center; 
     cursor:pointer;
     padding: 10px;
-    background-color: #2f3640;
+    background-color: #212B35;
     margin: 20px;
     border-radius:20px;
 }
