@@ -14,7 +14,7 @@ const Register = () => {
                 <input type="password" name='password' placeholder='Enter your password'/>
                 <button type='submit'>Login</button>
             </form>
-            <span>Don't have an account ? </span><button className='create-btn'>create an account</button>
+            <span>Don't have an account ? </span><button className='create-btn' onClick={()=>setIsLogin(false)}>create an account</button>
             </div>
             :
             <div>
@@ -25,7 +25,7 @@ const Register = () => {
 
               <button type="submit">Sign In</button>
             </form>
-            <span>Already have an account ? </span><button className='create-btn'>Login</button>
+            <span>Already have an account ? </span><button className='create-btn' onClick={()=>setIsLogin(true)}>Login</button>
             </div>
             }
         </div>
