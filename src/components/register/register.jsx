@@ -6,6 +6,10 @@ const Register = () => {
   return (
     <div className='container'>
         <div className="login">
+          <div className="switcher">
+            <button>Login</button>
+            <button>Sign In</button>
+          </div>
             <div className="title">{IsLogin ? "Login" : "Sign in"}</div>
             {IsLogin ?
             <div>
@@ -14,7 +18,6 @@ const Register = () => {
                 <input type="password" name='password' placeholder='Enter your password'/>
                 <button type='submit'>Login</button>
             </form>
-            <span>Don't have an account ? </span><button className='create-btn'>create an account</button>
             </div>
             :
             <div>
@@ -25,7 +28,6 @@ const Register = () => {
 
               <button type="submit">Sign In</button>
             </form>
-            <span>Already have an account ? </span><button className='create-btn'>Login</button>
             </div>
             }
         </div>

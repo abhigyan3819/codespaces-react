@@ -22,7 +22,7 @@
     padding: 30px;
     background: #1e1e1e; /* Slightly lighter dark background */
     border-radius: 10px;
-    box-shadow: 0px 0px 15px rgba(0, 0, 255, 0.3); /* Blue glow effect */
+    box-shadow: 0px 0px 15px rgba(1, 1, 1, 0.3); /* Blue glow effect */
     text-align: center;
 }
 
@@ -98,4 +98,16 @@ span {
     color: #ffffff;
     margin-top: 15px;
     font-size: 14px;
+}
+.switcher{
+    display: flex;
+    margin: 10px;
+    align-items: start;
+    justify-content: space-between;
+    button{
+        background-color: transparent;
+        color:white;
+        border:none;
+        outline: none;
+    }
 }
