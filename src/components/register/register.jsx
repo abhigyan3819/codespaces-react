@@ -1,38 +1,36 @@
-import React, { useState } from 'react';
-import './register.css';
+import React, { useState } from 'react'
+import "./register.css"
 
 const Register = () => {
-  const [isLogin, setIsLogin] = useState(false);
-
+  const [IsLogin, setIsLogin] = useState(false)
   return (
-    <div className="container">
-      <div className="login">
-        <div className="title">{isLogin ? "Login" : "Sign Up"}</div>
-        {isLogin ? (
-          <div className="form-box">
+    <div className='container'>
+        <div className="login">
+            <div className="title">{IsLogin ? "Login" : "Sign in"}</div>
+            {IsLogin ?
+            <div>
             <form>
-              <input type="text" name="email" placeholder="Enter your email" />
-              <input type="password" name="password" placeholder="Enter your password" />
-              <button type="submit">Login</button>
+                <input type="text" name="email" placeholder='Enter your email'/>
+                <input type="password" name='password' placeholder='Enter your password'/>
+                <button type='submit'>Login</button>
             </form>
-            <span>Don't have an account?</span>
-            <button className="create-btn" onClick={() => setIsLogin(false)}>Create an account</button>
-          </div>
-        ) : (
-          <div className="form-box">
+            <span>Don't have an account ? </span><button className='create-btn'>create an account</button>
+            </div>
+            :
+            <div>
             <form>
-              <input type="text" name="username" placeholder="Enter your username" />
-              <input type="email" name="email" placeholder="Enter your email" />
-              <input type="password" name="password" placeholder="Enter your password" />
-              <button type="submit">Sign Up</button>
-            </form>
-            <span>Already have an account?</span>
-            <button className="create-btn" onClick={() => setIsLogin(true)}>Login</button>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-};
+              <input type="text" name='username' placeholder='Enter your username' />
+              <input type="email" name='email' placeholder='Enter your email' />
+              <input type="password" name='password' placeholder='Enter your password' />
 
-export default Register;
+              <button type="submit">Sign In</button>
+            </form>
+            <span>Already have an account ? </span><button className='create-btn'>Login</button>
+            </div>
+            }
+        </div>
+    </div>
+  )
+}
+
+export default Register 
