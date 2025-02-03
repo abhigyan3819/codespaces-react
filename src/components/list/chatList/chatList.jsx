@@ -2,10 +2,15 @@ import React, { useEffect, useState } from 'react';
 import "./chatList.css";
 import { auth, db } from '../../../backend/firebase';
 import { collection, query, where, orderBy, onSnapshot, getDoc, doc } from "firebase/firestore"; 
+import { useGlobalState } from "../../../backend/globalStates"
 
 const ChatList = () => {
   const [chats, setChats] = useState([]);
+  const { currentChatUID, changeCurrentChatUID, messages, updateMessages} = useGlobalState()
 
+  const changeCurrentChat =(UID) =>{
+    
+  }
   useEffect(() => {
     const currentUser = auth.currentUser;
     if (!currentUser) return;
@@ -50,7 +55,7 @@ const ChatList = () => {
         </div>
       </div>
       {chats.map((chat) => (
-        <div key={chat.chatID} className='item'>
+        <div key={chat.chatID} className='item' onClick={changeCurrentChat}>
           <img src="./profile.png" alt="Profile" />
           <div className='texts'>
             <div className='name'>{chat.username}</div>
