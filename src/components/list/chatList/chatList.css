@@ -1,7 +1,9 @@
 .chatList{
     flex:1;
     overflow-y: scroll;
+    min-height: 650px;
     .search{
+        position: sticky;
         flex:1;
         background-color: #212B35;
         display:flex;
