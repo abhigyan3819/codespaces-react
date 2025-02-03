@@ -12,19 +12,35 @@ const Register = () => {
     e.preventDefault();
     toast.success("Login")
   }
-  const handleSignin = async (e)=>{
-    e.preventDefault()
-    setIsRegistering(true)
-    const formData = new FormData(e.target)
-    const { username, email, password } = Object.fromEntries(formData)
-    try{
-      const res = await createUserWithEmailAndPassword(auth, email, password)
-      toast.success("Account successfully created !")
-    }catch(err){
-      toast.error(err.message)
+  const handleSignin = async (e) => {
+    e.preventDefault();
+    setIsRegistering(true);
+
+    const formData = new FormData(e.target);
+    const { email, password } = Object.fromEntries(formData);
+
+    try {
+        await createUserWithEmailAndPassword(auth, email, password);
+        toast.success("Account successfully created!");
+    } catch (err) {
+        const errorMessage = formatFirebaseError(err.message);
+        toast.error(errorMessage);
     }
-    setIsRegistering(false)
-  }
+
+    setIsRegistering(false);
+};
+const formatFirebaseError = (error) => {
+    const errorMessages = {
+        "auth/email-already-in-use": "This email is already registered.",
+        "auth/invalid-email": "Invalid email format.",
+        "auth/weak-password": "Password must be at least 6 characters long.",
+        "auth/missing-password": "Please enter a password.",
+        "auth/internal-error": "An internal error occurred. Try again.",
+    };
+
+    return errorMessages[error] || "An error occurred. Please try again.";
+};
+
   return (
     <div className='container'>
         <div className="login">
