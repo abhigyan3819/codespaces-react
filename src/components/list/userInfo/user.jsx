@@ -1,8 +1,12 @@
 import React from 'react'
 import "./user.css"
-import userInfo from '../../../backend/userInfo'
+import { fetchUserData }from '../../../backend/userInfo'
+import { auth } from '../../../backend/firebase'
+
 const User = () => {
-  const user = userInfo()
+  const uid = auth.currentUser.uid
+  const user = fetchUserData(uid)
+
   return (
     <div className='userInfo'>
         <div className='user'>

@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
-import { auth } from "./firebase";
+import { auth , db } from "./firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore"; 
-import { db } from "../../backend/firebase"; 
 
-const fetchUserData = async (uid) => {
+export const fetchUserData = async (uid) => {
   try {
     const userDocRef = doc(db, "users", uid);    
     const docSnapshot = await getDoc(userDocRef);    
@@ -15,10 +14,11 @@ const fetchUserData = async (uid) => {
       return null;
     }
   } catch (err) {
+    console.log(err)
   }
 };
 
-const userInfo = () => {
+export const userInfo = () => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -34,5 +34,3 @@ const userInfo = () => {
     return { user, loading };
 };
 
-export default userInfo;
-export default fetchUserData;
