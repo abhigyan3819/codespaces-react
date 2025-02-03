@@ -35,6 +35,7 @@ const Register = () => {
         await setDoc(doc(db, "users", res.user.uid),{
           username,
           email,
+          imageURL: "",
           id: res.user.uid,
           friends:[],
         })

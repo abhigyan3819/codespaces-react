@@ -26,7 +26,7 @@ const User = () => {
     <div className='userInfo'>
         <div className='user'>
             <img src="./profile.png" alt="pic" />
-            <div>{userData.username}</div> 
+            <div className='name'>{userData.username}</div> 
         </div>
     </div>
   );
