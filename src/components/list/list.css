@@ -4,3 +4,12 @@
     background-color: rgba(0, 0, 0, 0.15);
     flex-direction:column;
 }
+.list {
+    flex: 0.75;
+    display: flex;
+    background-color: rgba(0, 0, 0, 0.15);
+    flex-direction: column;
+    position: relative;
+    z-index: 10;
+    box-shadow: 10px 0 10px rgba(0, 0, 0, 0.4);
+}
