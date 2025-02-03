@@ -83,7 +83,7 @@ input::placeholder {
 }
 
 /* Button styling */
-button[type="submit"] {
+button[type="submit"]{
     width: 100%;
     padding: 12px;
     margin-top: 10px;
@@ -96,7 +96,9 @@ button[type="submit"] {
     background: #007bff;
     color: #ffffff;
 }
-
+.create-btn:disabled{
+    cursor:not-allowed;
+}
 button[type="submit"]:hover {
     background: #0056b3;
 }
