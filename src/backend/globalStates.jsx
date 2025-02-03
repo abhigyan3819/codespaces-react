@@ -11,7 +11,7 @@ export const GlobalStateProvider = ({ children }) => {
     setMessages(messages);
   };
   return (
-    <GlobalStateContext.Provider value={{ currentChatUID, changeCurrentChatUID, messages, updateMessages }}>
+    <GlobalStateContext.Provider value={ {currentChatUID, changeCurrentChatUID, messages, updateMessages }}>
       {children}
     </GlobalStateContext.Provider>
   );

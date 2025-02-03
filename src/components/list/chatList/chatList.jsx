@@ -9,6 +9,7 @@ const ChatList = () => {
   const { currentChatUID, changeCurrentChatUID, messages, updateMessages} = useGlobalState()
 
   const changeCurrentChat =(UID) =>{
+    changeCurrentChatUID(UID)
     
   }
   useEffect(() => {
@@ -31,7 +32,7 @@ const ChatList = () => {
         const userDocSnapshot = await getDoc(userDocRef);
         if (userDocSnapshot.exists()) {
           const userData = userDocSnapshot.data();
-          const lastMessage = chatData.lastMessage || "No messages yet";
+          const lastMessage = chatData.lastMessage || "";
           chatList.push({
             chatID: chatDoc.id,
             username: userData.username,
@@ -55,7 +56,7 @@ const ChatList = () => {
         </div>
       </div>
       {chats.map((chat) => (
-        <div key={chat.chatID} className='item' onClick={changeCurrentChat}>
+        <div key={chat.chatID} className='item' onClick={()=>changeCurrentChat(chat.chatID)}>
           <img src="./profile.png" alt="Profile" />
           <div className='texts'>
             <div className='name'>{chat.username}</div>
