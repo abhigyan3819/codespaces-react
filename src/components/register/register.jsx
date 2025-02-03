@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import "./register.css";
 import { toast } from 'react-toastify';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../../backend/firebase';
+import { auth, db } from '../../backend/firebase';
+import { doc, setDoc } from 'firebase/firestore';
 
 const Register = () => {
   const [IsLogin, setIsLogin] = useState(false);
@@ -27,10 +28,16 @@ const Register = () => {
     setIsRegistering(true);
 
     const formData = new FormData(e.target);
-    const { email, password } = Object.fromEntries(formData);
+    const { username, email, password } = Object.fromEntries(formData);
 
     try {
-        await createUserWithEmailAndPassword(auth, email, password);
+        const res = await createUserWithEmailAndPassword(auth, email, password);
+        await setDoc(doc(db, "users", res.user.uid),{
+          username,
+          email,
+          id: res.user.uid,
+          friends:[],
+        })
         toast.success("Account successfully created!");
     } catch (err) {
         const errorMessage = formatFirebaseError(err.code);
