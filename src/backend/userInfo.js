@@ -1,6 +1,22 @@
 import { useEffect, useState } from "react";
 import { auth } from "./firebase";
 import { onAuthStateChanged } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore"; 
+import { db } from "../../backend/firebase"; 
+
+const fetchUserData = async (uid) => {
+  try {
+    const userDocRef = doc(db, "users", uid);    
+    const docSnapshot = await getDoc(userDocRef);    
+    if (docSnapshot.exists()) {
+      const userData = docSnapshot.data();
+      return userData;
+    } else {
+      return null;
+    }
+  } catch (err) {
+  }
+};
 
 const userInfo = () => {
     const [user, setUser] = useState(null);
@@ -19,3 +35,4 @@ const userInfo = () => {
 };
 
 export default userInfo;
+export default fetchUserData;
