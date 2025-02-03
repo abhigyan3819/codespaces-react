@@ -1,34 +1,45 @@
 import React, { useEffect, useState } from 'react';
 import "./chatList.css";
 import { auth, db } from '../../../backend/firebase';
-import { doc, getDoc, onSnapshot } from "firebase/firestore"; 
+import { collection, query, where, orderBy, onSnapshot, getDoc, doc } from "firebase/firestore"; 
 
 const ChatList = () => {
-  const [friends, setFriends] = useState([]);
+  const [chats, setChats] = useState([]);
 
   useEffect(() => {
     const currentUser = auth.currentUser;
-    if (!currentUser) return; 
+    if (!currentUser) return;
 
-    const userDocRef = doc(db, "users", currentUser.uid);
+    const chatQuery = query(
+      collection(db, "chats"),
+      where("users", "array-contains", currentUser.uid),
+      orderBy("lastMessageTimestamp", "desc")
+    );
 
-    const unsub = onSnapshot(userDocRef, async (docSnapshot) => {
-      if (docSnapshot.exists()) {
-        const userData = docSnapshot.data();
-        const friendsUIDs = userData.friends || [];
+    const unsub = onSnapshot(chatQuery, async (querySnapshot) => {
+      const chatList = [];
+      for (const chatDoc of querySnapshot.docs) {
+        const chatData = chatDoc.data();
+        const otherUserUID = chatData.users.filter(uid => uid !== currentUser.uid)[0]; 
 
-        const friendsData = await Promise.all(
-          friendsUIDs.map(async (friendUID) => {
-            const friendDocRef = doc(db, "users", friendUID);
-            const friendSnapshot = await getDoc(friendDocRef);
-            return friendSnapshot.exists() ? friendSnapshot.data() : null;
-          })
-        );
-        setFriends(friendsData.filter(friend => friend !== null));
+        const userDocRef = doc(db, "users", otherUserUID);
+        const userDocSnapshot = await getDoc(userDocRef);
+        if (userDocSnapshot.exists()) {
+          const userData = userDocSnapshot.data();
+          const lastMessage = chatData.lastMessage || "No messages yet";
+          chatList.push({
+            chatID: chatDoc.id,
+            username: userData.username,
+            lastMessage,
+            lastMessageTimestamp: chatData.lastMessageTimestamp,
+          });
+        }
       }
+
+      setChats(chatList);
     });
 
-    return () => unsub();
+    return () => unsub(); 
   }, []);
 
   return (
@@ -38,12 +49,12 @@ const ChatList = () => {
           <input type="search" placeholder='Search'/>
         </div>
       </div>
-      {friends.map((friend, index) => (
-        <div key={friend.id} className='item'>
+      {chats.map((chat) => (
+        <div key={chat.chatID} className='item'>
           <img src="./profile.png" alt="Profile" />
           <div className='texts'>
-            <div className='name'>{friend.username}</div>
-            <div className='lastmsg'>Last message...</div>
+            <div className='name'>{chat.username}</div>
+            <div className='lastmsg'>{chat.lastMessage}</div>
           </div>
         </div>
       ))}
