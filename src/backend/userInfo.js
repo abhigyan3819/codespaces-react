@@ -20,7 +20,7 @@ export const fetchUserData = async (uid) => {
 
 export const userInfo = () => {
     const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const [IsLoading, setLoading] = useState(true);
 
     useEffect(() => {
         const unsub = onAuthStateChanged(auth, (user) => {
@@ -31,6 +31,6 @@ export const userInfo = () => {
         return () => unsub(); 
     }, []);
 
-    return { user, loading };
+    return { user, IsLoading };
 };
 

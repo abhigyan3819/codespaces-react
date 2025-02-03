@@ -5,13 +5,13 @@ import { auth } from '../../../backend/firebase'
 
 const User = () => {
   const uid = auth.currentUser.uid
-  const user = fetchUserData(uid)
+  const userData = fetchUserData(uid)
 
   return (
     <div className='userInfo'>
         <div className='user'>
             <img src="./profile.png" alt="pic" />
-            <div></div>
+            <div>{userData.username}</div>
         </div>
     </div>
   )
