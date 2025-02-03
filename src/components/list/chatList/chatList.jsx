@@ -1,50 +1,34 @@
 import React, { useEffect, useState } from 'react';
 import "./chatList.css";
-import { auth } from '../../../backend/firebase';
-import { fetchUserData } from '../../../backend/userInfo';
-import { doc, getDoc } from "firebase/firestore"; 
-import { db } from '../../../backend/firebase';
+import { auth, db } from '../../../backend/firebase';
+import { doc, getDoc, onSnapshot } from "firebase/firestore"; 
 
 const ChatList = () => {
-  const [user, setUser] = useState(null);
-  const [friendsUID, setFriendsUID] = useState([]);
   const [friends, setFriends] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const currentUser = auth.currentUser;
-      if (currentUser) {
-        const uid = currentUser.uid;
-        const data = await fetchUserData(uid);
+    const currentUser = auth.currentUser;
+    if (!currentUser) return; 
 
-        if (data) {
-          setUser(data);
-          setFriendsUID(data.friends); 
+    const userDocRef = doc(db, "users", currentUser.uid);
 
-          const friendsData = await Promise.all(
-            data.friends.map(async (friendUID) => {
-              try {
-                const userDocRef = doc(db, "users", friendUID);
-                const docSnapshot = await getDoc(userDocRef);
-                if (docSnapshot.exists()) {
-                  return docSnapshot.data(); 
-                } else {
-                  console.log("Unknown user:", friendUID);
-                  return null;
-                }
-              } catch (err) {
-                console.log("Error fetching friend:", err);
-                return null;
-              }
-            })
-          );
+    const unsub = onSnapshot(userDocRef, async (docSnapshot) => {
+      if (docSnapshot.exists()) {
+        const userData = docSnapshot.data();
+        const friendsUIDs = userData.friends || [];
 
-          setFriends(friendsData.filter(friend => friend !== null));
-        }
+        const friendsData = await Promise.all(
+          friendsUIDs.map(async (friendUID) => {
+            const friendDocRef = doc(db, "users", friendUID);
+            const friendSnapshot = await getDoc(friendDocRef);
+            return friendSnapshot.exists() ? friendSnapshot.data() : null;
+          })
+        );
+        setFriends(friendsData.filter(friend => friend !== null));
       }
-    };
+    });
 
-    fetchData();
+    return () => unsub();
   }, []);
 
   return (
@@ -54,18 +38,17 @@ const ChatList = () => {
           <input type="search" placeholder='Search'/>
         </div>
       </div>
-
       {friends.map((friend, index) => (
-        <div key={index} className='item'>
+        <div key={friend.id} className='item'>
           <img src="./profile.png" alt="Profile" />
           <div className='texts'>
             <div className='name'>{friend.username}</div>
-            <div className='lastmsg'>Last message...</div> 
+            <div className='lastmsg'>Last message...</div>
           </div>
         </div>
       ))}
     </div>
   );
-}
+};
 
 export default ChatList;
