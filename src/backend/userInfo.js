@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { auth } from "../../backend/firebase";
+import { auth } from "./firebase";
 import { onAuthStateChanged } from "firebase/auth";
 
 const userInfo = () => {
@@ -12,7 +12,7 @@ const userInfo = () => {
             setLoading(false);
         });
 
-        return () => unsubscribe(); 
+        return () => unsub(); 
     }, []);
 
     return { user, loading };
