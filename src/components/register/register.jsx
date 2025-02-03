@@ -1,16 +1,26 @@
 import React, { useState } from 'react';
 import "./register.css";
 import { toast } from 'react-toastify';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../backend/firebase';
 
 const Register = () => {
   const [IsLogin, setIsLogin] = useState(false);
   const [IsRegistering, setIsRegistering] = useState(false)
 
-  const handleLogin =(e)=>{
+  const handleLogin = async(e)=>{
     e.preventDefault();
-    toast.success("Login")
+    setIsRegistering(true)
+    const formData = new FormData(e.target)
+    const { email, password } = Object.fromEntries(formData)
+    try{
+      await signInWithEmailAndPassword(auth, email, password)
+      toast.success("Logged in successfully")
+    }catch(err){
+      const error = formatFirebaseError(err.code)
+      toast.error(error)
+    }
+    setIsRegistering(false)
   }
   const handleSignin = async (e) => {
     e.preventDefault();
@@ -23,10 +33,9 @@ const Register = () => {
         await createUserWithEmailAndPassword(auth, email, password);
         toast.success("Account successfully created!");
     } catch (err) {
-        const errorMessage = formatFirebaseError(err.message);
+        const errorMessage = formatFirebaseError(err.code);
         toast.error(errorMessage);
     }
-
     setIsRegistering(false);
 };
 const formatFirebaseError = (error) => {
@@ -36,6 +45,13 @@ const formatFirebaseError = (error) => {
         "auth/weak-password": "Password must be at least 6 characters long.",
         "auth/missing-password": "Please enter a password.",
         "auth/internal-error": "An internal error occurred. Try again.",
+        "auth/user-not-found": "No account found with this email.",
+        "auth/wrong-password": "Incorrect password. Please try again.",
+        "auth/too-many-requests": "Too many failed login attempts. Please try again later.",
+        "auth/account-exists-with-different-credential": "An account already exists with the same email, but through a different sign-in method.",
+        "auth/invalid-credential": "Invalid email or password.",
+        "auth/requires-recent-login": "Please log in again to perform this action.",
+        "auth/email-not-verified": "Please verify your email address.",
     };
 
     return errorMessages[error] || "An error occurred. Please try again.";
