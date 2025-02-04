@@ -1,16 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import "./chatList.css";
 import { auth, db } from '../../../backend/firebase';
-import { collection, query, where, orderBy, onSnapshot, getDoc, doc } from "firebase/firestore"; 
+import { collection, query, where, orderBy, onSnapshot, getDoc, doc, getDocs } from "firebase/firestore"; 
 import { useGlobalState } from "../../../backend/globalStates"
 
 const ChatList = () => {
   const [chats, setChats] = useState([]);
-  const { currentChatUID, changeCurrentChatUID, messages, updateMessages} = useGlobalState()
+  const { changeCurrentChatUID, updateMessages} = useGlobalState()
 
-  const changeCurrentChat =(UID) =>{
+  const changeCurrentChat = async(UID) =>{
     changeCurrentChatUID(UID)
-    
+    const messagesRef = collection(db, "chats", chatID, "messages");
+
+    const querySnapshot = await getDocs(messagesRef);
+    const messages = querySnapshot.docs.map(doc => ({
+      id: doc.id, 
+      ...doc.data(), 
+    }));
+    updateMessages(messages)
   }
   useEffect(() => {
     const currentUser = auth.currentUser;
