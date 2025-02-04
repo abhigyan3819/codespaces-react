@@ -7,6 +7,7 @@ const Chat = () => {
  
   const { currentChatUID, messages} = useGlobalState()
   const [ msgs, setmsgs] = useState(messages)
+  const [userData, setUserData] = useState(null)
   
   const[open, setOpen] = useState(false)
   const[text, setText] = useState("")
@@ -21,7 +22,7 @@ const Chat = () => {
       const userDocRef = doc(db, "users", otherUserUID);
       const userDocSnapshot = await getDoc(userDocRef);
       if (userDocSnapshot.exists()) {
-        const userData = userDocSnapshot.data();
+        setUserData(userDocSnapshot.data());
       }
     }
     const messagesRef = collection(db, "chats", currentChatUID, "messages");
