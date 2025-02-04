@@ -14,7 +14,7 @@ const Chat = () => {
     setOpen(false)
   }
   return (
-
+    {
     <div className='chat'>
       <div className="top">
         <div className="user">
@@ -22,34 +22,13 @@ const Chat = () => {
           <div className='name'>name</div>
         </div>
       </div>
-      <div className="center">
-        
+      <div className="center">    
         <div className="message">
           <div className='texts'>
             <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Corrupti eveniet voluptate dolores cumque, libero quidem expedita, enim ipsa cup reprehenderit, maxime iure! Atque, vel esse al</p>
             <div>1 pm</div>
           </div>
         </div>
-        <div className="message own">
-          <div className="texts">
-           <p>lorem jwiama skamqk epa eoa qoe aox ox</p>
-           <span>1 pm</span>
-          </div>
-       </div>
-<div className="message ">
-  <div className="texts">
-    <p>lorem jwiama skamqk epa eoa qoe aox ox</p>
-    <span>1 pm</span>
-  </div>
-</div>
-<div className="message own">
-  <div className="texts">
-    <p>lorem jwiama skamqk epa eoa qoe aox ox</p>
-    <span>1 pm</span>
-  </div>
-</div>
-
-
       </div>
       <div className="bottom">
         <div className="icons">
@@ -64,7 +43,7 @@ const Chat = () => {
         </div>
         <button type="button" className='sendButton'>Send</button>
       </div>
-    </div>
+    </div>}
   )
 }
 
