@@ -93,4 +93,28 @@
     border-radius: 5px;
     cursor: pointer;
   }
+.request-buttons {
+  display: flex;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.request-buttons .accept {
+  background: #28a745;
+  padding: 8px 12px;
+  border: none;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.request-buttons .reject {
+  background: #dc3545;
+  padding: 8px 12px;
+  border: none;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
   
