@@ -6,22 +6,22 @@ import { useGlobalState } from '../../backend/globalStates'
 const Chat = () => {
  
   const { currentChatUID, messages} = useGlobalState()
-  const [ msgs, setmsgs] = useState(messages)
+  const [ msgs, setmsgs] = useState([])
  
   return currentChatUID ? (
     <div className='chat'>
       <div className="top">
         <div className="user">
           <img src="./profile.png" alt="" />
-          <div className='name'>{userData?.username || "Unknown"}</div>
+          <div className='name'>userData?.username || "Unknown"</div>
         </div>
       </div>
       <div className="center">
         {msgs?.map((msg) => (
           <div className="message" key={msg.id}>
             <div className='texts'>
-              <p>{msg.text}</p>
-              <div>{msg.timestamp?.toDate().toLocaleString()}</div>
+              <p>msg.text</p>
+              <div>msg.timestamp?.toDate().toLocaleString()</div>
             </div>
           </div>
         ))}
@@ -39,7 +39,7 @@ const Chat = () => {
             </div>
           )}
         </div>
-        <button type="button" className='sendButton' onClick={sendMessage}>Send</button>
+        <button type="button" className='sendButton' >Send</button>
       </div>
     </div>
   ) : (

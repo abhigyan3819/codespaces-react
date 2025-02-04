@@ -6,18 +6,26 @@ import Register from './components/register/register';
 import { Notification } from './components/Notification';
 import Loading from './components/loading/Loading';
 import { userInfo } from './backend/userInfo';
+import { useState } from 'react';
+import Friends from './components/friends/Friends';
 
 function App() {
   const{ user, IsLoading } = userInfo()
+  const [window, setWindow] = useState("home")
 
   if(IsLoading)return <Loading/>
   return (
     <div className="container">
       {user ?( 
       <>
-       <Sidebar/>
-       <List/>
-       <Chat/>
+       <Sidebar setWindow={setWindow}/>
+       {window === "home" && 
+       <>
+         <List/>
+         <Chat/>
+       </>
+       }
+       {window === "friends" && <Friends/>}
       </>):(
       <Register/>)}
       <Notification />

@@ -16,11 +16,11 @@ const ChatList = () => {
         </div>
       </div>
       {chats?.map((chat) => (
-        <div key={chat.chatID} className='item' onClick={()=>changeCurrentChat(chat.chatID)}>
+        <div key="chat.chatID" className='item' >
           <img src="./profile.png" alt="Profile" />
           <div className='texts'>
-            <div className='name'>{chat.username}</div>
-            <div className='lastmsg'>{chat.lastMessage}</div>
+            <div className='name'>chat.username</div>
+            <div className='lastmsg'>chat.lastMessage</div>
           </div>
         </div>
       ))}
