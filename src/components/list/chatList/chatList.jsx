@@ -6,55 +6,7 @@ import { useGlobalState } from "../../../backend/globalStates"
 
 const ChatList = () => {
   const [chats, setChats] = useState([]);
-  const { changeCurrentChatUID, updateMessages} = useGlobalState()
-
-  const changeCurrentChat = async(UID) =>{
-    changeCurrentChatUID(UID)
-    const messagesRef = collection(db, "chats", chatID, "messages");
-
-    const querySnapshot = await getDocs(messagesRef);
-    const messages = querySnapshot.docs.map(doc => ({
-      id: doc.id, 
-      ...doc.data(), 
-    }));
-    updateMessages(messages)
-  }
-  useEffect(() => {
-    const currentUser = auth.currentUser;
-    if (!currentUser) return;
-
-    const chatQuery = query(
-      collection(db, "chats"),
-      where("users", "array-contains", currentUser.uid),
-      orderBy("lastMessageTimestamp", "desc")
-    );
-
-    const unsub = onSnapshot(chatQuery, async (querySnapshot) => {
-      const chatList = [];
-      for (const chatDoc of querySnapshot.docs) {
-        const chatData = chatDoc.data();
-        const otherUserUID = chatData.users.filter(uid => uid !== currentUser.uid)[0]; 
-
-        const userDocRef = doc(db, "users", otherUserUID);
-        const userDocSnapshot = await getDoc(userDocRef);
-        if (userDocSnapshot.exists()) {
-          const userData = userDocSnapshot.data();
-          const lastMessage = chatData.lastMessage || "";
-          chatList.push({
-            chatID: chatDoc.id,
-            username: userData.username,
-            lastMessage,
-            lastMessageTimestamp: chatData.lastMessageTimestamp,
-          });
-        }
-      }
-
-      setChats(chatList);
-    });
-
-    return () => unsub(); 
-  }, []);
-
+  
   return (
     <div className='chatList'>
       <div className='search'>
