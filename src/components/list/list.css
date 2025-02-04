@@ -1,9 +1,4 @@
-.list{
-    flex:0.75;
-    display:flex;
-    background-color: rgba(0, 0, 0, 0.15);
-    flex-direction:column;
-}
+
 .list {
     flex: 0.75;
     display: flex;

@@ -14,7 +14,7 @@ const ChatList = () => {
           <input type="search" placeholder='Search'/>
         </div>
       </div>
-      {chats.map((chat) => (
+      {chats?.map((chat) => (
         <div key={chat.chatID} className='item' onClick={()=>changeCurrentChat(chat.chatID)}>
           <img src="./profile.png" alt="Profile" />
           <div className='texts'>
