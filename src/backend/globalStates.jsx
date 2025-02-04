@@ -3,7 +3,7 @@ import React, { createContext, useContext, useState } from 'react';
 const GlobalStateContext = createContext();
 export const GlobalStateProvider = ({ children }) => {
   const [currentChatUID, setcurrentChatUID] = useState(null);
-  const [messages, setMessages] = useState(null);
+  const [messages, setMessages] = useState([]);
   const changeCurrentChatUID = (UID) => {
     setcurrentChatUID(UID);
   };

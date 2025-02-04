@@ -6,7 +6,8 @@ import { useGlobalState } from '../../backend/globalStates'
 const Chat = () => {
  
   const { currentChatUID, messages} = useGlobalState()
-
+  const [ msgs, setImgs] = useState([messages])
+  
   const[open, setOpen] = useState(false)
   const[text, setText] = useState("")
   const handleEmoji =(emoji) =>{
@@ -29,7 +30,7 @@ const Chat = () => {
     return onSnapshot(q, (snapshot) => {
       snapshot.docChanges().forEach((change) => {
       if (change.type === "added") {
-        handleNewMessage({
+        setImgs(...msgs,{
           id: change.doc.id,
           ...change.doc.data(),
         });
@@ -47,11 +48,11 @@ const Chat = () => {
         </div>
       </div>
       <div className="center">
-        {messages?.map((msg)=>{
+        {msgs?.map((msg)=>{
         <div className="message">
           <div className='texts'>
-            <p>msg.text</p>
-            <div>msg.timestamp</div>
+            <p>{msg.text}</p>
+            <div>{msg.timestamp}</div>
           </div>
         </div>
       </div>

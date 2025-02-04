@@ -1,6 +1,7 @@
 import './App.css';
 import Chat from './components/chat/chat';
 import List from './components/list/List';
+import Sidebar from './components/sidebar/Sidebar'
 import Register from './components/register/register';
 import { Notification } from './components/Notification';
 import Loading from './components/loading/Loading';
@@ -14,6 +15,7 @@ function App() {
     <div className="container">
       {user ?( 
       <>
+       <Sidebar/>
        <List/>
        <Chat/>
       </>):(
