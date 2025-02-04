@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { auth, db } from './firebase';
-import { toast } from 'react-toastify';
 import { doc, getDoc } from 'firebase/firestore';
 import { onAuthStateChanged } from "firebase/auth";
 
@@ -21,7 +20,6 @@ export const GlobalStateProvider = ({ children }) => {
       if (docSnapshot.exists()) {
         const userData = docSnapshot.data();
         setCurrentUserData(userData);
-        toast.success(`Welcome, ${userData.username}`);
       } else {
         setCurrentUserData(null);
       }

@@ -3,10 +3,10 @@ import './friends.css';
 
 const Friends = () => {
   const [activeTab, setActiveTab] = useState('friends');
+  const [text, setText] = useState("")
 
   return (
     <div className="friends-container">
-      {/* Navigation Tabs */}
       <div className="tabs">
         <button className={activeTab === 'friends' ? 'active' : ''} onClick={() => setActiveTab('friends')}>Friends</button>
         <button className={activeTab === 'add' ? 'active' : ''} onClick={() => setActiveTab('add')}>Add</button>
@@ -24,7 +24,7 @@ const Friends = () => {
       {activeTab === 'add' && (
         <div className="add-friends">
           <div className="search-bar">
-            <input type="text" placeholder="Search" />
+            <input type="text" placeholder="Search" onChange={(e)=>{setText(e.target.value)}}/>
             <button>Search</button>
           </div>
           <UserItem username="Jane Smith" profilePic="./profile.png" buttonText="Add Friend" />

@@ -2,11 +2,10 @@
 .list {
     flex: 0.75;
     display: flex;
-    background-color: rgba(0, 0, 0, 0.15);
+    background-color: #121212;
     flex-direction: column;
     position: relative;
     z-index: 10;
-    box-shadow: 5px 0 5px rgba(0, 0, 0, 0.4);
     margin-left: 60px; 
     width: calc(100% - 60px); 
 }
