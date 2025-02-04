@@ -3,7 +3,7 @@ import './friends.css';
 
 const Friends = () => {
   const [activeTab, setActiveTab] = useState('friends');
-  const [text, setText] = useState("")
+  const [text, setText] = useState("");
 
   return (
     <div className="friends-container">
@@ -24,7 +24,7 @@ const Friends = () => {
       {activeTab === 'add' && (
         <div className="add-friends">
           <div className="search-bar">
-            <input type="text" placeholder="Search" onChange={(e)=>{setText(e.target.value)}}/>
+            <input type="text" placeholder="Search" onChange={(e) => setText(e.target.value)} />
             <button>Search</button>
           </div>
           <UserItem username="Jane Smith" profilePic="./profile.png" buttonText="Add Friend" />
@@ -34,7 +34,7 @@ const Friends = () => {
       {/* Friend Requests */}
       {activeTab === 'requests' && (
         <div className="friend-requests">
-          <UserItem username="Mark Johnson" profilePic="./profile.png" />
+          <UserItem username="Mark Johnson" profilePic="./profile.png" isRequest />
         </div>
       )}
     </div>
@@ -42,12 +42,18 @@ const Friends = () => {
 };
 
 // Reusable User Item Component
-const UserItem = ({ username, profilePic, buttonText }) => {
+const UserItem = ({ username, profilePic, buttonText, isRequest }) => {
   return (
     <div className="user-item">
       <img src={profilePic} alt="Profile" />
       <span>{username}</span>
       {buttonText && <button>{buttonText}</button>}
+      {isRequest && (
+        <div className="request-buttons">
+          <button className="accept">Accept</button>
+          <button className="reject">Reject</button>
+        </div>
+      )}
     </div>
   );
 };
