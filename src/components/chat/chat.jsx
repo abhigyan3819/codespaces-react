@@ -1,8 +1,12 @@
 import React, { useState } from 'react'
 import "./chat.css"
 import EmojiPicker from 'emoji-picker-react'
+import { useGlobalState } from '../../backend/globalStates'
 
 const Chat = () => {
+
+  const { currentChatUID, messages} = useGlobalState()
+
   const[open, setOpen] = useState(false)
   const[text, setText] = useState("")
   const handleEmoji =(emoji) =>{
@@ -10,6 +14,7 @@ const Chat = () => {
     setOpen(false)
   }
   return (
+    
     <div className='chat'>
       <div className="top">
         <div className="user">
