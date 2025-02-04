@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import "./chat.css"
 import EmojiPicker from 'emoji-picker-react'
 import { useGlobalState } from '../../backend/globalStates'
@@ -13,23 +13,49 @@ const Chat = () => {
     setText((prev) => prev+emoji.emoji)
     setOpen(false)
   }
-return (
+  useEffect(async ()=>{
+    if(currentChatUID){
+      const ids = currentChatUID.split("_")
+      const otherUserUID = ids.filter(uid => uid !== currentUser.uid)[0]; 
+      const userDocRef = doc(db, "users", otherUserUID);
+      const userDocSnapshot = await getDoc(userDocRef);
+      if (userDocSnapshot.exists()) {
+        const userData = userDocSnapshot.data();
+      }
+    }
+    const messagesRef = collection(db, "chats", currentChatUID, "messages");
+    const q = query(messagesRef); 
+
+    return onSnapshot(q, (snapshot) => {
+      snapshot.docChanges().forEach((change) => {
+      if (change.type === "added") {
+        handleNewMessage({
+          id: change.doc.id,
+          ...change.doc.data(),
+        });
+      }
+    });
+  });
+  },[])
+  return (
   currentChatUID ? (
     <div className='chat'>
       <div className="top">
         <div className="user">
           <img src="./profile.png" alt="" />
-          <div className='name'>name</div>
+          <div className='name'>userData?.username</div>
         </div>
       </div>
-      <div className="center">    
+      <div className="center">
+        {messages?.map((msg)=>{
         <div className="message">
           <div className='texts'>
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Corrupti eveniet voluptate dolores cumque, libero quidem expedita, enim ipsa reprehenderit, maxime iure! Atque, vel esse al</p>
-            <div>1 pm</div>
+            <p>msg.text</p>
+            <div>msg.timestamp</div>
           </div>
         </div>
       </div>
+      })}
       <div className="bottom">
         <div className="icons">
           <img src="./img.png" alt="" />
@@ -47,9 +73,9 @@ return (
       </div>
     </div>
   ) : (
-    <div>No chat selected</div>
+    <div className='chat no-chat'>No chat selected</div>
   )
 );
+}
 
-
-export default Chat
+export default Chat;
