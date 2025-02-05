@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import "./chatList.css";
 import { auth, db } from '../../../backend/firebase';
-import { collection, query, where, orderBy, onSnapshot, getDoc, doc } from "firebase/firestore"; 
+import { collection, query, where, orderBy, onSnapshot, getDoc, doc, getDocs } from "firebase/firestore"; 
 import { useGlobalState } from "../../../backend/globalStates";
 
 const ChatList = () => {

@@ -3,7 +3,7 @@ import "./chat.css";
 import EmojiPicker from 'emoji-picker-react';
 import { useGlobalState } from '../../backend/globalStates';
 import { auth, db } from '../../backend/firebase';
-import { collection, doc, getDoc, addDoc, serverTimestamp, query, onSnapshot, orderBy } from 'firebase/firestore';
+import { collection, doc, getDoc, addDoc, serverTimestamp, query, onSnapshot, orderBy, updateDoc } from 'firebase/firestore';
 
 const Chat = () => {
   const { currentChatUID, messages } = useGlobalState();
@@ -38,6 +38,9 @@ const Chat = () => {
     };
 
     const unsubscribe = fetchUserAndMessages();
+    const scrollDiv = document.getElementById('center');
+    scrollDiv.scrollTop = scrollDiv.scrollHeight;
+
     return () => unsubscribe && unsubscribe();
   }, [currentChatUID]);
 
@@ -55,11 +58,13 @@ const Chat = () => {
       text,
       timestamp: serverTimestamp(),
     });
-    await updateDoc(messageRef, {
+    const chatRef = doc(db, "chats", currentChatUID)
+    await updateDoc(chatRef, {
       lastMessage: text, 
       lastMessageTimestamp: serverTimestamp() 
   });
-
+    const scrollDiv = document.getElementById('center'); 
+    scrollDiv.scrollTop = scrollDiv.scrollHeight;
     setText("");
   };
 

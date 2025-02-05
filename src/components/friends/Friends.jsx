@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './friends.css';
-import { collection, doc, getDoc, getDocs, query, serverTimestamp, setDoc, Timestamp, where } from 'firebase/firestore';
+import { collection, deleteDoc, doc, getDoc, getDocs, query, serverTimestamp, setDoc, Timestamp, where } from 'firebase/firestore';
 import { auth, db } from '../../backend/firebase';
-import { toast } from 'react-toastify';
+
 
 const Friends = () => {
   const [activeTab, setActiveTab] = useState('friends');
@@ -29,10 +29,11 @@ const Friends = () => {
       id:uid,
       users:uid.split("_"),
       lastMessage:"",
-      lastMessageTimeStamp:serverTimestamp()
+      lastMessageTimestamp:serverTimestamp()
     })
     await setDoc(doc(db, "chats", uid,"messages"),{
     })
+    await deleteDoc(doc(db, "friendRequests", uid))
   }
 
   const searchUser = async () => {
