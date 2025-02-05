@@ -69,7 +69,7 @@ const Chat = () => {
       </div>
       <div className="center">
         {msgs?.map((msg) => (
-          <div className="message" key={msg.id}>
+          <div className={auth.currentUser.uid === msg.sender ? "message own" : "message"} key={msg.id}>
             <div className='texts'>
               <p>{msg.text}</p>
               <div>{msg.timestamp?.toDate().toLocaleString()}</div>
