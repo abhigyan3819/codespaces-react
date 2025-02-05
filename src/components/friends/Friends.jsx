@@ -31,6 +31,8 @@ const Friends = () => {
       lastMessage:"",
       lastMessageTimeStamp:serverTimestamp()
     })
+    await setDoc(doc(db, "chats", uid,"messages"),{
+    })
   }
 
   const searchUser = async () => {
