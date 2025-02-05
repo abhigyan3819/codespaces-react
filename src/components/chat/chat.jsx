@@ -3,7 +3,7 @@ import "./chat.css";
 import EmojiPicker from 'emoji-picker-react';
 import { useGlobalState } from '../../backend/globalStates';
 import { auth, db } from '../../backend/firebase';
-import { collection, doc, getDoc, addDoc, serverTimestamp, query, onSnapshot } from 'firebase/firestore';
+import { collection, doc, getDoc, addDoc, serverTimestamp, query, onSnapshot, orderBy } from 'firebase/firestore';
 
 const Chat = () => {
   const { currentChatUID, messages } = useGlobalState();
@@ -27,7 +27,7 @@ const Chat = () => {
       }
 
       const messagesRef = collection(db, "chats", currentChatUID, "messages");
-      const q = query(messagesRef);
+      const q = query(messagesRef, orderBy("timestamp", "asc")); 
 
       const unsubscribe = onSnapshot(q, (snapshot) => {
         const newMessages = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
