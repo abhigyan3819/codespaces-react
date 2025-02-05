@@ -55,6 +55,10 @@ const Chat = () => {
       text,
       timestamp: serverTimestamp(),
     });
+    await updateDoc(messageRef, {
+      lastMessage: text, 
+      lastMessageTimestamp: serverTimestamp() 
+  });
 
     setText("");
   };
