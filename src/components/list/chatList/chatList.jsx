@@ -12,8 +12,7 @@ const ChatList = () => {
     changeCurrentChatUID(UID)
     const messagesRef = collection(db, "chats", UID, "messages");
     const querySnapshot = await getDocs(messagesRef);
-    const messages = querySnapshot.docs.map(doc => ({
-      id: doc.id, 
+    const messages = querySnapshot?.docs.map(doc => ({
       ...doc.data(), 
     }));
     updateMessages(messages)
@@ -43,7 +42,7 @@ const ChatList = () => {
             chatID: chatDoc.id,
             username: userData.username,
             lastMessage,
-            lastMessageTimestamp: chatData.lastMessageTimestamp,
+            lastMessageTimesSamp: chatData.lastMessageTimeStamp,
           });
         }
       }

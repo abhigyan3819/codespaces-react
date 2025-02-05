@@ -29,11 +29,11 @@ const Chat = () => {
     const q = query(messagesRef); 
 
     return onSnapshot(q, (snapshot) => {
-      snapshot.docChanges().forEach((change) => {
+      snapshot?.docChanges().forEach((change) => {
       if (change.type === "added") {
         setmsgs(prevMsgs => [
               ...prevMsgs,
-              { id: change.doc.id, ...change.doc.data() }
+              { ...change.doc.data() }
             ]);
       }
     });
