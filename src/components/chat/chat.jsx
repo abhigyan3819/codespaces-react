@@ -7,11 +7,11 @@ import { collection, doc, getDoc, addDoc, serverTimestamp, query, onSnapshot, or
 
 const Chat = () => {
   const { currentChatUID, messages } = useGlobalState();
-  const [msgs, setMsgs] = useState(messages);
+  const [msgs, setMsgs] = useState(messages || []);
   const [userData, setUserData] = useState(null);
   const [open, setOpen] = useState(false);
   const [text, setText] = useState("");
-
+  
   useEffect(() => {
     if (!currentChatUID) return;
 
@@ -27,7 +27,7 @@ const Chat = () => {
       }
 
       const messagesRef = collection(db, "chats", currentChatUID, "messages");
-      const q = query(messagesRef, orderBy("timestamp", "asc")); 
+      const q = query(messagesRef, orderBy("timestamp", "asc"));
 
       const unsubscribe = onSnapshot(q, (snapshot) => {
         const newMessages = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
@@ -38,10 +38,17 @@ const Chat = () => {
     };
 
     const unsubscribe = fetchUserAndMessages();
-    const scrollDiv = document.getElementById('center');
-    scrollDiv.scrollTop = scrollDiv.scrollHeight;
 
-    return () => unsubscribe && unsubscribe();
+    const scrollDiv = document.getElementById('center');
+    if (scrollDiv) {
+      scrollDiv.scrollTop = scrollDiv.scrollHeight;
+    }
+
+    return () => {
+      if (unsubscribe) unsubscribe();
+      setUserData(null);
+      setMsgs([]);
+    };
   }, [currentChatUID]);
 
   const handleEmoji = (emoji) => {
@@ -58,21 +65,30 @@ const Chat = () => {
       text,
       timestamp: serverTimestamp(),
     });
-    const chatRef = doc(db, "chats", currentChatUID)
+
+    const chatRef = doc(db, "chats", currentChatUID);
     await updateDoc(chatRef, {
-      lastMessage: text, 
-      lastMessageTimestamp: serverTimestamp() 
-  });
-    const scrollDiv = document.getElementById('center'); 
-    scrollDiv.scrollTop = scrollDiv.scrollHeight;
+      lastMessage: text,
+      lastMessageTimestamp: serverTimestamp(),
+    });
+
+    const scrollDiv = document.getElementById('center');
+    if (scrollDiv) {
+      scrollDiv.scrollTop = scrollDiv.scrollHeight;
+    }
+
     setText("");
   };
 
-  return currentChatUID ? (
+  if (!currentChatUID || !userData) {
+    return <div className="chat no-chat">No chat selected</div>;
+  }
+
+  return (
     <div className='chat'>
       <div className="top">
         <div className="user">
-          <img src="./profile.png" alt="Profile" />
+          <img src={userData?.profilePic || "./profile.png"} alt="Profile" />
           <div className='name'>{userData?.username || "Unknown"}</div>
         </div>
       </div>
@@ -107,8 +123,6 @@ const Chat = () => {
         <button type="button" className='sendButton' onClick={sendMessage}>Send</button>
       </div>
     </div>
-  ) : (
-    <div className='chat no-chat'></div>
   );
 };
 
