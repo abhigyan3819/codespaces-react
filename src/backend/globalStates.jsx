@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { auth, db } from './firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import { onAuthStateChanged } from "firebase/auth";
+import { toast } from 'react-toastify';
 
 const GlobalStateContext = createContext();
 
@@ -40,6 +41,7 @@ export const GlobalStateProvider = ({ children }) => {
 
   const changeCurrentChatUID = (UID) => {
     setcurrentChatUID(UID);
+    
   };
 
   const updateMessages = (messages) => {

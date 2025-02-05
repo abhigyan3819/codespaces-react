@@ -3,6 +3,7 @@ import Chat from './components/chat/chat';
 import List from './components/list/List';
 import Sidebar from './components/sidebar/Sidebar'
 import Register from './components/register/register';
+import Account from './components/account/Account'
 import { Notification } from './components/Notification';
 import Loading from './components/loading/Loading';
 import { userInfo } from './backend/userInfo';
@@ -26,6 +27,7 @@ function App() {
        </>
        }
        {window === "friends" && <Friends/>}
+       {window === "account" && <Account/>}
       </>):(
       <Register/>)}
       <Notification />

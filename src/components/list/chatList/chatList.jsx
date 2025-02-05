@@ -3,10 +3,12 @@ import "./chatList.css";
 import { auth, db } from '../../../backend/firebase';
 import { collection, query, where, orderBy, onSnapshot, getDoc, doc, getDocs } from "firebase/firestore"; 
 import { useGlobalState } from "../../../backend/globalStates";
+import { toast } from 'react-toastify';
 
 const ChatList = () => {
   const [chats, setChats] = useState([]);
   const { changeCurrentChatUID, updateMessages } = useGlobalState();
+  const [activeChat, setActiveChat] = useState("")
 
   const changeCurrentChat = async (UID) => {
     changeCurrentChatUID(UID);
@@ -16,6 +18,7 @@ const ChatList = () => {
       ...doc.data(),
     }));
     updateMessages(messages);
+    setActiveChat(UID)
   };
 
   useEffect(() => {
@@ -63,7 +66,7 @@ const ChatList = () => {
         </div>
       </div>
       {chats?.map((chat) => (
-        <div key={chat.chatID} className='item' onClick={() => changeCurrentChat(chat.chatID)}>
+        <div key={chat.chatID} className='item' style={{background:activeChat === chat.chatID ? "#5183fe":"#1a1d23"}} id={chat.chatID} onClick={() => changeCurrentChat(chat.chatID)}>
           <img src="./profile.png" alt="Profile" />
           <div className='texts'>
             <div className='name'>{chat.username}</div>

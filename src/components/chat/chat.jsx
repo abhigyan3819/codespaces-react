@@ -108,7 +108,7 @@ const Chat = () => {
       </div>
     </div>
   ) : (
-    <div className='chat no-chat'>No chat selected</div>
+    <div className='chat no-chat'></div>
   );
 };
 

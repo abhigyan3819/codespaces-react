@@ -11,7 +11,7 @@ const Sidebar = ({ setWindow }) => {
       <div className="bottom-icons">
       <FaUserFriends className="icon" title="Friends" onClick={()=>setWindow("friends")} />
         <FaCog className="icon" title="Settings" />
-        <FaUser className="icon" title="Account" />
+        <FaUser className="icon" title="Account" onClick={()=>setWindow("account")}/>
       </div>
     </div>
   );

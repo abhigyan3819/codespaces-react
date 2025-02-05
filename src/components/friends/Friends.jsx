@@ -26,12 +26,7 @@ const Friends = () => {
 
   const acceptRequest = async(uid)=>{
     const { uid1, uid2 } = uid.split("_");
-    await updateDoc(doc(db,"users",uid1), {
-      friends: arrayUnion(uid2),  
-    });
-    await updateDoc(doc(db, "users", uid2), {
-      friends: arrayUnion(uid1),  
-    });
+    
     await setDoc(doc(db, "chats", uid),{
       id:uid,
       users:uid.split("_"),

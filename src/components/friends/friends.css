@@ -55,9 +55,11 @@
   }
   
   .search-bar button {
-    padding: 8px 12px;
+    padding: 0px 12px;
     background: #007bff;
+    height:40px;
     border: none;
+    margin-top:8px;
     color: white;
     border-radius: 5px;
     cursor: pointer;

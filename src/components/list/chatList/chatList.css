@@ -7,7 +7,7 @@
         position: sticky;
         flex:1;
         height:45px;
-        background-color: #212B35;
+        background-color: #1a1d23;
         display:flex;
         gap:10px;
         margin:10px;
@@ -38,7 +38,7 @@
     align-items:center; 
     cursor:pointer;
     padding: 10px;
-    background-color: #212B35;
+    background-color: #1a1d23;
     margin: 20px;
     border-radius:20px;
 }
