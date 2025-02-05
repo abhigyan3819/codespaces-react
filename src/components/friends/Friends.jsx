@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './friends.css';
-import { collection, doc, getDocs, query, setDoc } from 'firebase/firestore';
+import { collection, doc, getDocs, query, setDoc, where } from 'firebase/firestore';
 import { auth, db } from '../../backend/firebase';
 import { toast } from 'react-toastify';
 
@@ -8,7 +8,7 @@ const Friends = () => {
   const [activeTab, setActiveTab] = useState('friends');
   const [text, setText] = useState("");
   const [userData, setUserData] = useState(null)
-
+  const [requests, setRequests] = useState([])
   const addFriend = async()=>{
     const uid = auth.currentUser.uid < userData.id ? `${auth.currentUser.uid}_${userData.id}` : `${userData.id}_${auth.currentUser.uid}`
     await setDoc(doc(db,"friendRequests",uid),{
@@ -19,6 +19,7 @@ const Friends = () => {
     setUserData(null)
   }
   const searchUser = async () => {
+    setUserData(null)
     if(text ==="")return;
     const usersRef = collection(db, "users");
     const q = query(usersRef, where("username", "==", text));
@@ -26,8 +27,7 @@ const Friends = () => {
       const querySnapshot = await getDocs(q);
       if (!querySnapshot.empty) {
         const userDoc = querySnapshot.docs[0]; 
-        setUserData(userDoc); 
-        toast.success(userDoc.username)
+        setUserData(userDoc.data()); 
         }else {
         console.log("User not found");
         return null;
@@ -37,6 +37,22 @@ const Friends = () => {
       return null;
     }
   }
+  useEffect(()=>{
+    const fetchRequests = async()=>{
+      const requestRef = collection(db,"friendRequests")
+      const q = query(requestRef, where("receiver","==",auth.currentUser.uid))
+      try{
+        const snapshot = await getDocs(q)
+        if(!snapshot.empty){
+          const request = snapshot.docs
+          
+        }
+      }catch(err){
+        console.error(err)
+     }
+   }
+   fetchRequests()
+  },[])
   return (
     <div className="friends-container">
       <div className="tabs">
@@ -58,7 +74,7 @@ const Friends = () => {
             <input type="text" placeholder="Search" onChange={(e) => setText(e.target.value)} />
             <button onClick={searchUser}>Search</button>
           </div>
-          {userData && <UserItem username={userData.username} profilePic="./profile.png" buttonText="Add Friend" />}
+          {userData && <UserItem username={userData.username} profilePic="./profile.png" buttonText="Add Friend" addFriend={addFriend}/>}
         </div>
       )}
 
@@ -72,19 +88,15 @@ const Friends = () => {
 };
 
 
-const UserItem = ({ username, profilePic, buttonText, isRequest }) => {
+const UserItem = ({ username, profilePic, buttonText, isRequest, addFriend, uid }) => {
   return (
     <div className="user-item">
       <img src={profilePic} alt="Profile" />
       <span>{username}</span>
-      {buttonText && <button onClick={()=>{
-        if(buttonText === "Add Friend"){
-          addFriend()
-        }
-        }}>{buttonText}</button>}
+      {buttonText && <button onClick={addFriend}>{buttonText}</button>}
       {isRequest && (
         <div className="request-buttons">
-          <button className="accept">Accept</button>
+          <button className="accept" onClick={()=>acceptRequest(uid)}>Accept</button>
           <button className="reject">Reject</button>
         </div>
       )}
