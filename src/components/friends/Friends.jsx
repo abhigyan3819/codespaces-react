@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import './friends.css';
-import { arrayUnion, collection, deleteDoc, doc, getDoc, getDocs, query, serverTimestamp, setDoc, Timestamp, where } from 'firebase/firestore';
+import { arrayUnion, collection, deleteDoc, doc, getDoc, getDocs, query, serverTimestamp, setDoc, Timestamp, where, updateDoc } from 'firebase/firestore';
 import { auth, db } from '../../backend/firebase';
-
 
 const Friends = () => {
   const [activeTab, setActiveTab] = useState('friends');
   const [text, setText] = useState("");
   const [userData, setUserData] = useState(null);
   const [requests, setRequests] = useState([]);
-  const [friends, setFriends] = useState(null)
+  const [friends, setFriends] = useState([]);
 
   const addFriend = async () => {
     const uid = auth.currentUser.uid < userData.id 
@@ -26,7 +25,7 @@ const Friends = () => {
   };
 
   const acceptRequest = async(uid)=>{
-    const { uid1, uid2 } = uid.split("_")
+    const { uid1, uid2 } = uid.split("_");
     await updateDoc(doc(db,"users",uid1), {
       friends: arrayUnion(uid2),  
     });
@@ -38,12 +37,11 @@ const Friends = () => {
       users:uid.split("_"),
       lastMessage:"",
       lastMessageTimestamp:serverTimestamp()
-    })
-    await setDoc(doc(db, "chats", uid,"messages"),{
-    })
-    await deleteDoc(doc(db, "friendRequests", uid))
+    });
+    await setDoc(doc(db, "chats", uid,"messages"),{});
+    await deleteDoc(doc(db, "friendRequests", uid));
     setRequests(prevRequests => prevRequests.filter(request => request.id !== uid));
-  }
+  };
 
   const searchUser = async () => {
     setUserData(null);
@@ -66,7 +64,7 @@ const Friends = () => {
   };
 
   useEffect(() => {
-    const fetchRequests = async () => {
+    const fetchRequestsAndFriends = async () => {
       const requestRef = collection(db, "friendRequests");
       const q = query(requestRef, where("receiver", "==", auth.currentUser.uid));
       try {
@@ -87,15 +85,35 @@ const Friends = () => {
           }));
 
           setRequests(requestList.filter(req => req !== null)); 
-          const friends = (await getDoc(db, "users", auth.currentUser.uid, "friends")).data()
-          setFriends(friends)
         }
+
+        // Fetch user's friends' data
+        const userDocRef = doc(db, "users", auth.currentUser.uid);
+        const userDocSnapshot = await getDoc(userDocRef);
+        if (userDocSnapshot.exists()) {
+          const userFriends = userDocSnapshot.data().friends || [];
+          const friendsList = await Promise.all(userFriends.map(async (friendId) => {
+            const friendRef = doc(db, "users", friendId);
+            const friendSnap = await getDoc(friendRef);
+            if (friendSnap.exists()) {
+              return {
+                id: friendSnap.id,
+                username: friendSnap.data().username,
+                profilePic: friendSnap.data().profilePic || "./profile.png"
+              };
+            }
+            return null;
+          }));
+
+          setFriends(friendsList.filter(friend => friend !== null));
+        }
+
       } catch (err) {
         console.error(err);
       }
     };
 
-    fetchRequests();
+    fetchRequestsAndFriends();
   }, []);
 
   return (
@@ -106,10 +124,12 @@ const Friends = () => {
         <button className={activeTab === 'requests' ? 'active' : ''} onClick={() => setActiveTab('requests')}>Requests</button>
       </div>
 
+      {/* Friends Tab */}
       {activeTab === 'friends' && (
         <div className="friends-list">
-          {friends.map((friend)=>(
-          <UserItem username={friends.username} profilePic="./profile.png" />))}
+          {friends.map((friend) => (
+            <UserItem key={friend.id} username={friend.username} profilePic={friend.profilePic} />
+          ))}
         </div>
       )}
 
@@ -137,7 +157,6 @@ const Friends = () => {
 };
 
 const UserItem = ({ username, profilePic, buttonText, isRequest, addFriend, uid, acceptRequest }) => {
-
   return (
     <div className="user-item">
       <img src={profilePic} alt="Profile" />
