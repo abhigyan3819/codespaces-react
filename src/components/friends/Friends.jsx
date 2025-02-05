@@ -1,25 +1,34 @@
 import React, { useState } from 'react';
 import './friends.css';
+import { collection, doc, getDocs, query, setDoc } from 'firebase/firestore';
+import { auth, db } from '../../backend/firebase';
+import { toast } from 'react-toastify';
 
 const Friends = () => {
   const [activeTab, setActiveTab] = useState('friends');
   const [text, setText] = useState("");
   const [userData, setUserData] = useState(null)
 
-  const addFriend =()=>{
-    
+  const addFriend = async()=>{
+    const uid = auth.currentUser.uid < userData.id ? `${auth.currentUser.uid}_${userData.id}` : `${userData.id}_${auth.currentUser.uid}`
+    await setDoc(doc(db,"friendRequests",uid),{
+      sender: auth.currentUser.uid,
+      receiver: userData.id,
+      id:uid
+    })
+    setUserData(null)
   }
   const searchUser = async () => {
     if(text ==="")return;
     const usersRef = collection(db, "users");
     const q = query(usersRef, where("username", "==", text));
-  
     try {
       const querySnapshot = await getDocs(q);
       if (!querySnapshot.empty) {
         const userDoc = querySnapshot.docs[0]; 
         setUserData(userDoc); 
-      } else {
+        toast.success(userDoc.username)
+        }else {
         console.log("User not found");
         return null;
       }
