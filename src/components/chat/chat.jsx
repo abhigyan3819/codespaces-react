@@ -76,7 +76,7 @@ const Chat = () => {
           <div className='name'>{userData?.username || "Unknown"}</div>
         </div>
       </div>
-      <div className="center">
+      <div className="center" id="center">
         {msgs?.map((msg) => (
           <div className={auth.currentUser.uid === msg.sender ? "message own" : "message"} key={msg.id}>
             <div className='texts'>

@@ -7,9 +7,9 @@ const Sidebar = ({ setWindow }) => {
     <div className="sidebar">
       <div className="top-icons">
         <FaHome className="icon" title="Home" onClick={()=>setWindow("home")}/>
-        <FaUserFriends className="icon" title="Friends" onClick={()=>setWindow("friends")} />
       </div>
       <div className="bottom-icons">
+      <FaUserFriends className="icon" title="Friends" onClick={()=>setWindow("friends")} />
         <FaCog className="icon" title="Settings" />
         <FaUser className="icon" title="Account" />
       </div>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './friends.css';
-import { collection, deleteDoc, doc, getDoc, getDocs, query, serverTimestamp, setDoc, Timestamp, where } from 'firebase/firestore';
+import { arrayUnion, collection, deleteDoc, doc, getDoc, getDocs, query, serverTimestamp, setDoc, Timestamp, where } from 'firebase/firestore';
 import { auth, db } from '../../backend/firebase';
 
 
@@ -9,6 +9,7 @@ const Friends = () => {
   const [text, setText] = useState("");
   const [userData, setUserData] = useState(null);
   const [requests, setRequests] = useState([]);
+  const [friends, setFriends] = useState(null)
 
   const addFriend = async () => {
     const uid = auth.currentUser.uid < userData.id 
@@ -25,6 +26,13 @@ const Friends = () => {
   };
 
   const acceptRequest = async(uid)=>{
+    const { uid1, uid2 } = uid.split("_")
+    await updateDoc(doc(db,"users",uid1), {
+      friends: arrayUnion(uid2),  
+    });
+    await updateDoc(doc(db, "users", uid2), {
+      friends: arrayUnion(uid1),  
+    });
     await setDoc(doc(db, "chats", uid),{
       id:uid,
       users:uid.split("_"),
@@ -34,6 +42,7 @@ const Friends = () => {
     await setDoc(doc(db, "chats", uid,"messages"),{
     })
     await deleteDoc(doc(db, "friendRequests", uid))
+    setRequests(prevRequests => prevRequests.filter(request => request.id !== uid));
   }
 
   const searchUser = async () => {
@@ -78,6 +87,8 @@ const Friends = () => {
           }));
 
           setRequests(requestList.filter(req => req !== null)); 
+          const friends = (await getDoc(db, "users", auth.currentUser.uid, "friends")).data()
+          setFriends(friends)
         }
       } catch (err) {
         console.error(err);
@@ -97,7 +108,8 @@ const Friends = () => {
 
       {activeTab === 'friends' && (
         <div className="friends-list">
-          <UserItem username="John Doe" profilePic="./profile.png" />
+          {friends.map((friend)=>(
+          <UserItem username={friends.username} profilePic="./profile.png" />))}
         </div>
       )}
 
