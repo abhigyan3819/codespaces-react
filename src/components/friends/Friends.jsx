@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './friends.css';
-import { collection, doc, getDocs, query, setDoc, where } from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs, query, serverTimestamp, setDoc, Timestamp, where } from 'firebase/firestore';
 import { auth, db } from '../../backend/firebase';
 import { toast } from 'react-toastify';
 
@@ -23,6 +23,15 @@ const Friends = () => {
 
     setUserData(null);
   };
+
+  const acceptRequest = async(uid)=>{
+    await setDoc(doc(db, "chats", uid),{
+      id:uid,
+      users:uid.split("_"),
+      lastMessage:"",
+      lastMessageTimeStamp:serverTimestamp()
+    })
+  }
 
   const searchUser = async () => {
     setUserData(null);
@@ -54,9 +63,9 @@ const Friends = () => {
           const requestList = await Promise.all(snapshot.docs.map(async (Doc) => {
             const requestData = Doc.data();
             const senderRef = doc(db, "users", requestData.sender);
-            const senderSnap = await getDocs(senderRef);
+            const senderSnap = await getDoc(senderRef);
             if (!senderSnap.empty) {
-              const senderData = senderSnap.docs[0].data();
+              const senderData = senderSnap.data();
               return {
                 id: requestData.id,
                 senderName: senderData.username
@@ -104,7 +113,7 @@ const Friends = () => {
       {activeTab === 'requests' && (
         <div className="friend-requests">
           {requests.map((req) => (
-            <UserItem key={req.id} username={req.senderName} profilePic="./profile.png" isRequest uid={req.id} />
+            <UserItem key={req.id} username={req.senderName} profilePic="./profile.png" isRequest uid={req.id} acceptRequest={acceptRequest} />
           ))}
         </div>
       )}
@@ -112,10 +121,7 @@ const Friends = () => {
   );
 };
 
-const UserItem = ({ username, profilePic, buttonText, isRequest, addFriend, uid }) => {
-  const acceptRequest = async (id) => {
-    console.log("Accepted request:", id);
-  };
+const UserItem = ({ username, profilePic, buttonText, isRequest, addFriend, uid, acceptRequest }) => {
 
   return (
     <div className="user-item">
