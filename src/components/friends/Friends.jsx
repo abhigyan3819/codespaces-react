@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './friends.css';
 import { collection, doc, getDocs, query, setDoc, where } from 'firebase/firestore';
 import { auth, db } from '../../backend/firebase';
+import { toast } from 'react-toastify';
 
 const Friends = () => {
   const [activeTab, setActiveTab] = useState('friends');
@@ -47,15 +48,13 @@ const Friends = () => {
     const fetchRequests = async () => {
       const requestRef = collection(db, "friendRequests");
       const q = query(requestRef, where("receiver", "==", auth.currentUser.uid));
-
       try {
         const snapshot = await getDocs(q);
         if (!snapshot.empty) {
-          const requestList = await Promise.all(snapshot.docs.map(async (doc) => {
-            const requestData = doc.data();
+          const requestList = await Promise.all(snapshot.docs.map(async (Doc) => {
+            const requestData = Doc.data();
             const senderRef = doc(db, "users", requestData.sender);
-            const senderSnap = await getDocs(query(collection(db, "users"), where("id", "==", requestData.sender)));
-
+            const senderSnap = await getDocs(senderRef);
             if (!senderSnap.empty) {
               const senderData = senderSnap.docs[0].data();
               return {
@@ -66,7 +65,7 @@ const Friends = () => {
             return null;
           }));
 
-          setRequests(requestList.filter(req => req !== null)); // Remove null values
+          setRequests(requestList.filter(req => req !== null)); 
         }
       } catch (err) {
         console.error(err);
