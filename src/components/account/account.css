@@ -1,86 +1,92 @@
 .account-container {
+  width: calc(100% - 60px);
+  height: 100vh;
   background: #121212;
-  color: white;
+  margin-left: 60px;
   padding: 20px;
-  border-radius: 10px;
-  width: 400px;
-  margin: auto;
-  text-align: center;
+  color: white;
 }
 
-h2 {
-  margin-bottom: 20px;
-  color: #007bff;
+.account-title {
+  font-size: 24px;
+  margin-bottom: 15px;
+}
+
+.account-card {
+  background: #1e1e1e;
+  border-radius: 10px;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.account-banner {
+  width: 100%;
+  height: 100px;
+  background: #007bff;
+  border-radius: 10px 10px 0 0;
 }
 
 .profile-section {
-  position: relative;
+  position: absolute;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
-  justify-content: center;
-}
-
-.profile-pic-container {
-  position: relative;
-  display: inline-block;
+  align-items: center;
+  gap: 10px;
 }
 
 .profile-pic {
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
-  border: 3px solid #007bff;
+  border: 3px solid #1e1e1e;
 }
 
-.edit-icon, .delete-icon {
-  position: absolute;
-  background: #007bff;
+.icon-btn {
+  background: none;
   border: none;
   color: white;
-  padding: 5px;
-  border-radius: 50%;
   cursor: pointer;
+  font-size: 14px;
+  padding: 5px;
 }
 
-.edit-icon {
-  bottom: 0;
-  right: 0;
+.delete-btn {
+  color: red;
 }
 
-.delete-icon {
-  bottom: 0;
-  left: 0;
+.edit-btn {
+  color: #007bff;
 }
 
-.info-section {
-  margin-top: 20px;
+.account-info {
+  margin-top: 50px;
+  background: #252525;
+  padding: 20px;
+  border-radius: 10px;
 }
 
-.info-box {
-  background: #1e1e1e;
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 5px;
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #333;
 }
 
-.info-box span {
-  font-size: 12px;
-  color: gray;
+.label {
+  font-weight: bold;
 }
 
-.button-section {
-  margin-top: 20px;
-}
-
-.logout-btn, .delete-btn {
+.logout-btn, .delete-account-btn {
   width: 100%;
+  margin-top: 15px;
   padding: 10px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
+  font-size: 16px;
 }
 
 .logout-btn {
@@ -88,23 +94,21 @@ h2 {
   color: white;
 }
 
-.delete-btn {
+.delete-account-btn {
   background: red;
   color: white;
-  margin-top: 10px;
 }
 
-/* Popup Styles */
 .popup {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.7);
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 
 .popup-content {
@@ -114,20 +118,25 @@ h2 {
   text-align: center;
 }
 
-.popup-buttons {
-  margin-top: 10px;
-  display: flex;
-  justify-content: space-between;
+.popup-content p {
+  margin-bottom: 15px;
 }
 
-.popup-buttons button {
-  padding: 8px 12px;
+.cancel-btn, .confirm-delete-btn {
+  padding: 10px;
   border: none;
-  cursor: pointer;
   border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
 }
 
-.popup-buttons .confirm-delete {
+.cancel-btn {
+  background: gray;
+  color: white;
+  margin-right: 10px;
+}
+
+.confirm-delete-btn {
   background: red;
   color: white;
 }
