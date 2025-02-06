@@ -14,7 +14,7 @@ const Chat = () => {
   
   useEffect(() => {
     if (!currentChatUID) return;
-
+    let unsubscribe = null
     const fetchUserAndMessages = async () => {
       const ids = currentChatUID.split("_");
       const otherUserUID = ids.find(uid => uid !== auth.currentUser?.uid);
@@ -29,7 +29,7 @@ const Chat = () => {
       const messagesRef = collection(db, "chats", currentChatUID, "messages");
       const q = query(messagesRef, orderBy("timestamp", "asc"));
 
-      const unsubscribe = onSnapshot(q, (snapshot) => {
+      unsubscribe = onSnapshot(q, (snapshot) => {
         const newMessages = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
         setMsgs(newMessages);
       });
@@ -37,7 +37,7 @@ const Chat = () => {
       return unsubscribe;
     };
 
-    const unsubscribe = fetchUserAndMessages();
+    fetchUserAndMessages()
 
     const scrollDiv = document.getElementById('center');
     if (scrollDiv) {
@@ -80,7 +80,7 @@ const Chat = () => {
     setText("");
   };
 
-  if (!currentChatUID || !userData) {
+  if (!currentChatUID) {
     return <div className="chat no-chat">No chat selected</div>;
   }
 
@@ -89,7 +89,7 @@ const Chat = () => {
       <div className="top">
         <div className="user">
           <img src={userData?.profilePic || "./profile.png"} alt="Profile" />
-          <div className='name'>{userData?.username || "Unknown"}</div>
+          <div className='name'>{userData?.username}</div>
         </div>
       </div>
       <div className="center" id="center">

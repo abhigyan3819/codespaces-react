@@ -41,7 +41,6 @@ export const GlobalStateProvider = ({ children }) => {
 
   const changeCurrentChatUID = (UID) => {
     setcurrentChatUID(UID);
-    
   };
 
   const updateMessages = (messages) => {
