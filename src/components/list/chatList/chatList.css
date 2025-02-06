@@ -54,12 +54,20 @@ img{
 }
 .texts{
     display:flex;
+    flex:1;
     flex-direction:column;
+    min-width: 0;
 
     .name{
         font-weight: 500;
     }
     .lastmsg{
         font-size: 14px;
+        white-space: nowrap;  
+        overflow: hidden;    
+        text-overflow: ellipsis; 
+        max-width: 200px;   
+        display: block;      
+
     }
 }

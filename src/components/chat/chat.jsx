@@ -97,7 +97,14 @@ const Chat = () => {
           <div className={auth.currentUser.uid === msg.sender ? "message own" : "message"} key={msg.id}>
             <div className='texts'>
               <p>{msg.text}</p>
-              <div>{msg.timestamp?.toDate().toLocaleString()}</div>
+              <div>{msg.timestamp?.toDate().toLocaleString('en-US', { 
+                 month: 'short', 
+                 day: 'numeric', 
+                 year: 'numeric', 
+                 hour: 'numeric', 
+                 minute: '2-digit', 
+                hour12: true 
+             })}</div>
             </div>
           </div>
         ))}
