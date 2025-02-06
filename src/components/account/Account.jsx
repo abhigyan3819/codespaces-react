@@ -1,17 +1,15 @@
 import React, { useState } from "react";
-import { FaPencilAlt, FaTrash } from "react-icons/fa";
+import { FaPencilAlt, FaTrash, FaSignOutAlt, FaUserSlash } from "react-icons/fa";
 import "./account.css";
 
 const Account = () => {
   const [showPopup, setShowPopup] = useState(false);
 
   const handleEditProfile = () => {
-    // Handle profile picture update
     console.log("Open file manager for image selection");
   };
 
   const handleDeleteProfilePic = () => {
-    // Handle profile picture deletion
     console.log("Profile picture deleted");
   };
 
@@ -32,13 +30,15 @@ const Account = () => {
 
         {/* Profile Picture Section */}
         <div className="profile-section">
-          <img src="./profile.png" alt="Profile" className="profile-pic" />
-          <button className="icon-btn delete-btn" onClick={handleDeleteProfilePic}>
-            <FaTrash />
-          </button>
-          <button className="icon-btn edit-btn" onClick={handleEditProfile}>
-            <FaPencilAlt />
-          </button>
+          <div className="profile-wrapper">
+            <img src="./profile.png" alt="Profile" className="profile-pic" />
+            <button className="icon-btn delete-btn" onClick={handleDeleteProfilePic}>
+              <FaTrash />
+            </button>
+            <button className="icon-btn edit-btn" onClick={handleEditProfile}>
+              <FaPencilAlt />
+            </button>
+          </div>
         </div>
 
         {/* Info Section */}
@@ -51,8 +51,14 @@ const Account = () => {
             <span className="label">Email</span>
             <span className="value">johndoe@example.com</span>
           </div>
-          <button className="logout-btn" onClick={handleLogout}>Log Out</button>
-          <button className="delete-account-btn" onClick={() => setShowPopup(true)}>Delete Account</button>
+          <div className="button-group">
+            <button className="small-btn logout-btn" onClick={handleLogout}>
+              <FaSignOutAlt /> Log Out
+            </button>
+            <button className="small-btn delete-account-btn" onClick={() => setShowPopup(true)}>
+              <FaUserSlash /> Delete Account
+            </button>
+          </div>
         </div>
       </div>
 
