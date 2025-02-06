@@ -35,27 +35,44 @@
         display:flex;
         flex-direction: column;
 
-        .message{
-            display:flex;
-            max-width:70%;
-            gap:20px;
-                .texts{
-                   p{
-                    background-color: #1F272A;
-                    padding:10px;
-                    border-radius:10px 10px 10px 10px;
-                  }
+        .message {
+          display: flex;
+          max-width: 70%;
+          gap: 20px;
+
+          .texts {
+            max-width: 100%; /* Ensures text doesn't exceed 70% */
+            display: inline-block; /* Allows text to determine width */
+         
+           p {
+            background-color: #1F272A;
+            padding: 10px;
+            border-radius: 10px 10px 10px 0px;
+            max-width: 100%; /* Prevents text from exceeding 70% */
+            word-wrap: break-word; /* Ensures long words break properly */
+            display: inline-block; /* Makes width depend on text */
+        }
+    }
+
+        &.own {
+        align-self: flex-end;
+
+          .texts {
+            display: flex;
+            flex-direction: column;
+
+            p {
+                background-color: #5183fe;
+                padding: 10px;
+                border-radius: 10px 10px 0px 10px;
+                max-width: 100%;
+                word-wrap: break-word;
+                display: inline-block;
             }
-            &.own{
-                align-self: flex-end;
-               .texts{
-                   display:flex;
-                   flex-direction: column;
-                  p{
-                    background-color: #5183fe;
-                    padding:10px;
-                    border-radius:10px 10px 0px 10px
-              }
+        }
+    }
+}
+
             }
           }
         }
