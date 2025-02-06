@@ -51,7 +51,10 @@ const ChatList = () => {
           });
         }
       }
-
+      chatList.sort((a, b) => {
+        return (b.lastMessageTimestamp?.toMillis() || 0) - (a.lastMessageTimestamp?.toMillis() || 0);
+       });
+      
       setChats(chatList);
     });
 

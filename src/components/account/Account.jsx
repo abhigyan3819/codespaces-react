@@ -6,7 +6,7 @@ import { auth } from "../../backend/firebase";
 
 const Account = () => {
   const [showPopup, setShowPopup] = useState(false);
-  const logOut =async()=>{
+  const logOut = async()=>{
     await signOut(auth)
   }
   const handleEditPicture = () => {
@@ -37,7 +37,7 @@ const Account = () => {
 
       {/* Action Buttons */}
       <div className="actions">
-        <button className="logout-btn" onClick={()=>logOut}>Log Out</button>
+        <button className="logout-btn" onClick={logOut}>Log Out</button>
         <button className="delete-btn" onClick={() => setShowPopup(true)}>Delete Account</button>
       </div>
 
